@@ -1,4 +1,3 @@
-/* eslint linebreak-style: ["off", "windows"] */
 import Vue from 'vue';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -6,7 +5,7 @@ import Api from '@/config/endpoints';
 
 Vue.use(VueAxios, axios);
 export default {
-  registerUser(formData) {
-    return Vue.axios.post(Api.BASE_URL + Api.REGISTER_USER, formData);
+  getTabularData() {
+    return Vue.axios.get(Api.BASE_URL + Api.TABULAR_DATA);
   },
 };

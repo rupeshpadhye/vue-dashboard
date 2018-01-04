@@ -10,8 +10,8 @@
             <md-icon>view_module</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item>Profile</md-menu-item>
-          <md-menu-item>Logout</md-menu-item>
+           <!-- <md-menu-item>Profile</md-menu-item> -->
+          <md-menu-item v-on:click="logOutUser">Logout</md-menu-item>
           </md-menu-content>
         </md-menu>
       </md-toolbar>
@@ -51,7 +51,8 @@
 </template>
 
 <script>
-/* eslint linebreak-style: ["off", "windows"] */
+import auth from '@/services/auth';
+
 export default {
   name: 'Dashboard',
   data: () => ({
@@ -66,6 +67,11 @@ export default {
     },
     closeRightSidenav() {
       this.$refs.rightSidenav.close();
+    },
+    logOutUser() {
+      auth.logOutUser(this).then(() => {
+        this.$router.push('/login');
+      });
     },
   },
 };

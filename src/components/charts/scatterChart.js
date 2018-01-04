@@ -1,12 +1,39 @@
-/* eslint linebreak-style: ["off", "windows"] */
-import { Scatter, mixins } from 'vue-chartjs';
-
+import { Scatter } from 'vue-chartjs';
+/* eslint no-underscore-dangle: ["error", { "allow": ["_chart", "_bar"] }] */
 export default {
   extends: Scatter,
-  mixins: [mixins.reactiveProp],
-  props: ['options'],
+  props: ['data', 'options', 'labels', 'display-name'],
   mounted() {
-    this.renderChart(this.chartData, this.options);
+    this.renderLineChart();
   },
-  methods: {},
+  computed: {
+    chartData() {
+      return this.data;
+    },
+  },
+  watch: {
+    data() {
+      if (this.$data._chart) {
+        this.$data._chart.destroy();
+      }
+      this.renderLineChart();
+    },
+  },
+  methods: {
+    renderLineChart() {
+      this.renderChart({
+        datasets: [
+          {
+            label: this.labels,
+            fill: false,
+            borderColor: '#f87979',
+            backgroundColor: '#f87979',
+            data: this.chartData,
+          },
+        ],
+      },
+      { responsive: true, maintainAspectRatio: false },
+    );
+    },
+  },
 };

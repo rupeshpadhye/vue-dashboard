@@ -20,4 +20,11 @@ export default {
   isUserLoggedIn() {
     return false;
   },
+  logOutUser(context) {
+    return new Promise((resolve) => {
+      localStorage.removeItem('token');
+      context.$store.commit('LOGOUT_USER');
+      resolve();
+    });
+  },
 };
