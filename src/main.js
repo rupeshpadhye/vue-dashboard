@@ -5,10 +5,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VueMaterial from 'vue-material';
 import 'vue-material/dist/vue-material.css';
-import socketio from 'socket.io-client';
-import VueSocketIO from 'vue-socket.io';
 import store from '@/store/store';
-import Api from '@/config/endpoints';
 // import vueTitleSwitcher from 'vue-title-switcher';
 import App from './App';
 import router from './router';
@@ -17,7 +14,6 @@ import router from './router';
 Vue.config.productionTip = false;
 Vue.use(VueMaterial);
 Vue.use(Vuex);
-Vue.use(VueSocketIO, socketio(Api.BASE_URL), store);
 
 /*
 Vue.use(vueTitleSwitcher, {

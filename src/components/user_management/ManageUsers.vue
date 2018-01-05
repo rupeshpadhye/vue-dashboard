@@ -20,7 +20,6 @@
 </md-layout>
 </template>
 <script>
-/* eslint linebreak-style: ["off", "windows"] */
 export default {
   name: 'ManageUsers',
   data() {

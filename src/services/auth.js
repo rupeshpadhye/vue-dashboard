@@ -10,9 +10,11 @@ export default {
       Vue.axios.post(Api.BASE_URL + Api.AUTH_API, credentials).then((response) => {
         localStorage.setItem('token', response.data.token);
         context.$store.commit('LOGIN_USER');
+        Vue.axios.defaults.headers.common['x-access-token'] = response.data.token;
         resolve();
       }).catch((error) => {
         context.$store.commit('LOGOUT_USER');
+        delete Vue.axios.defaults.headers.common['x-access-token'];
         reject(error);
       });
     });
@@ -24,6 +26,7 @@ export default {
     return new Promise((resolve) => {
       localStorage.removeItem('token');
       context.$store.commit('LOGOUT_USER');
+      delete Vue.axios.defaults.headers.common['x-access-token'];
       resolve();
     });
   },

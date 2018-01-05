@@ -89,7 +89,10 @@
   </div>
 </template>
 <script>
-/* eslint linebreak-style: ["off", "windows"] */
+import Vue from 'vue';
+import socketio from 'socket.io-client';
+import VueSocketIO from 'vue-socket.io';
+import Api from '@/config/endpoints';
 import lineChart from '@/components/charts/lineChart';
 import barChart from '@/components/charts/barChart';
 import scatterChart from '@/components/charts/scatterChart';
@@ -98,6 +101,11 @@ import VueLifeCycle from '@/components/VueLifeCycle';
 import ThreeLineList from '@/components/ThreeLineList';
 import TableView from '@/components/TableView';
 import tabularData from '@/services/tabular_data';
+
+/* eslint prefer-template: "off" */
+Vue.use(VueSocketIO, socketio(Api.BASE_URL, {
+  query: 'token=' + localStorage.getItem('token'),
+}));
 
 export default {
   name: 'HomeDashboard',
@@ -163,6 +171,12 @@ export default {
       this.isScatterChartConnected = true;
       this.scatterChartData = data.datapoints;
       this.scatterChartLabels = data.labels;
+    },
+    unauthorized(error) {
+      if (error.data.type === 'UnauthorizedError' || error.data.code === 'invalid_token') {
+        console.log('User\'s token has expired');
+        this.$router.push('/login');
+      }
     },
   },
   created() {
