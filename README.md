@@ -11,13 +11,9 @@
   - Change header on route change
   - Internationalisation support
   
-####Screen Shots 
+#### Screen Shots 
 
 ![Home Screen](snapshots/dashboard.PNG)
-
-![Login Screen](snapshots/login.PNG)
-
-![Register Screen](snapshots/register.PNG)
 
 ## Build Setup
 
@@ -45,7 +41,7 @@ npm test
 ```
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-####Third party libraries used
+#### Third party libraries used
 - vue-material 
 - vue-chartjs
 - axios
