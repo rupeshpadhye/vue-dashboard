@@ -15,7 +15,7 @@ export default {
       }).catch((error) => {
         context.$store.commit('LOGOUT_USER');
         delete Vue.axios.defaults.headers.common['x-access-token'];
-        reject(error);
+        reject(error.response);
       });
     });
   },

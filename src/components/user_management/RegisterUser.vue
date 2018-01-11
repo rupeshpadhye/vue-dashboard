@@ -79,9 +79,10 @@ export default {
       formData.append('username', this.username);
       formData.append('lastname', this.lastname);
       formData.append('mobileno', this.mobileno);
-      formData.append('filename', this.multiple);
+      formData.append('filenames', this.multiple);
+      formData.append('email', '');
+      formData.append('address', '');
       formData.append('files', this.fileList);
-      console.log(formData.get('files'));
       RegisterUserService.registerUser(formData).then((response) => {
         console.log(response);
       }).catch((error) => {

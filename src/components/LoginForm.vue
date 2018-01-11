@@ -22,7 +22,7 @@
                 <md-input type="password" required v-model.trim="password" v-on:blur="isPasswordValid"></md-input>
                   <span class="md-error">Password can not be empty.</span>
               </md-input-container>
-              <div v-if="serverError">{{errorMessage}}</div>
+              <div v-if="serverError" style="color:red">{{errorMessage}}</div>
               <md-layout md-align="center">
                   <md-button type="submit"  class="md-raised md-primary">Login</md-button>
               </md-layout>
@@ -64,8 +64,8 @@ export default {
         };
         auth.login(this, payload).then(() => {
           this.$router.push('/');
-        }).catch((error) => {
-          this.errorMessage = error.message;
+        }, (error) => {
+          this.errorMessage = error.data.message;
           this.serverError = true;
           this.password = '';
         });
