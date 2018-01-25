@@ -1,11 +1,8 @@
-import Vue from 'vue';
-// import axios from 'axios';
-// import VueAxios from 'vue-axios';
 import Api from '@/config/endpoints';
+import AXIOS_PROVIDER from '@/services/axios_provider';
 
-// Vue.use(VueAxios, axios);
 export default {
   getTabularData() {
-    return Vue.axios.get(Api.BASE_URL + Api.TABULAR_DATA);
+    return AXIOS_PROVIDER.getAxiosInstance().get(Api.BASE_URL + Api.TABULAR_DATA);
   },
 };

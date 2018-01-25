@@ -4,6 +4,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueMaterial from 'vue-material';
+import lodash from 'lodash';
+import VueLodash from 'vue-lodash';
 import 'vue-material/dist/vue-material.css';
 import store from '@/store/store';
 // import vueTitleSwitcher from 'vue-title-switcher';
@@ -14,6 +16,7 @@ import router from './router';
 Vue.config.productionTip = false;
 Vue.use(VueMaterial);
 Vue.use(Vuex);
+Vue.use(VueLodash, lodash);
 
 /*
 Vue.use(vueTitleSwitcher, {

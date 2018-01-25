@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LoginForm from '@/components/LoginForm';
-import Dashboard from '@/components/Dashboard';
-import RegisterUser from '@/components/user_management/RegisterUser';
-import ManageUsers from '@/components/user_management/ManageUsers';
-import HomeDashboard from '@/components/HomeDashboard';
+
+const About = () => import('@/components/About');
+const UserManagement = () => import('@/components/user_management/UserManagement');
+const Dashboard = () => import('@/components/Dashboard');
+const HomeDashboard = () => import('@/components/HomeDashboard');
 
 Vue.use(Router);
 
@@ -28,12 +29,12 @@ const router = new Router({
           component: HomeDashboard,
         },
         {
-          path: 'register',
-          component: RegisterUser,
+          path: 'usermngment',
+          component: UserManagement,
         },
         {
-          path: 'modify',
-          component: ManageUsers,
+          path: '/about',
+          component: About,
         },
       ],
     },

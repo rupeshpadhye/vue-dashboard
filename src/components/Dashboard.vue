@@ -4,7 +4,7 @@
         <md-button class="md-icon-button" @click="toggleLeftSidenav">
           <md-icon>menu</md-icon>
         </md-button>
-        <h2 class="md-title" style="flex: 1">Dashboard</h2>
+        <h2 class="md-title" style="flex: 1">{{getTitle}}</h2>
         <md-menu>
           <md-button md-menu-trigger>
             <md-icon>view_module</md-icon>
@@ -26,21 +26,21 @@
               <md-list>
           <md-list-item>
               <md-icon>home</md-icon>
-              <span><router-link :to="'/'">Home</router-link></span>
+              <span><router-link  v-on:click.native="upadateTitle('Home')" :to="'/'">Home</router-link></span>
           </md-list-item>
           <md-list-item md-expand-multiple>
             <md-icon>assignment</md-icon>
-            <span>User Management</span>
-            <md-list-expand>
+            <span><router-link  v-on:click.native="upadateTitle('User Management')" :to="'/usermngment'">User Management</router-link></span>
+          <!--  <md-list-expand>
               <md-list>
                 <md-list-item class="md-inset"><router-link :to="'register'">Register</router-link></md-list-item>
                 <md-list-item class="md-inset"><router-link :to="'modify'">View & Modify</router-link></md-list-item>
               </md-list>
-            </md-list-expand>
+            </md-list-expand>-->
           </md-list-item>
           <md-list-item>
             <md-icon>label</md-icon>
-            <span><router-link :to="'about'">About</router-link></span>
+            <span><router-link  v-on:click.native="upadateTitle('About')" :to="'/about'">About</router-link></span>
           </md-list-item>
         </md-list>
     </md-sidenav>
@@ -52,12 +52,16 @@
 
 <script>
 import auth from '@/services/auth';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Dashboard',
   data: () => ({
     menuVisible: false,
   }),
+  computed: mapGetters([
+    'getTitle',
+  ]),
   methods: {
     toggleLeftSidenav() {
       this.$refs.leftSidenav.toggle();
@@ -67,6 +71,10 @@ export default {
     },
     closeRightSidenav() {
       this.$refs.rightSidenav.close();
+    },
+    upadateTitle(title) {
+      this.$store.dispatch('SET_TITLE', title);
+      this.toggleLeftSidenav();
     },
     logOutUser() {
       auth.logOutUser(this).then(() => {
