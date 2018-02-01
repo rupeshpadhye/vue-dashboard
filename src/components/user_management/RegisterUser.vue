@@ -2,8 +2,7 @@
 <div>
     <md-snackbar ref="snackbar"  md-duration="3000" md-position="top right">{{getMessage}} </md-snackbar>
     <md-layout style="margin:2rem;">
-      <md-layout></md-layout>
-      <md-layout md-align="center" md-flex="50">
+      <md-layout md-align="center">
               <md-stepper @change="onChangeStep" @completed="onStepCompleted">
                  <form ref="form">
                       <md-step md-label="Personal Information" :md-editable="true" :md-error="!(isLastNameValid && isUserNameValid)" 
@@ -53,7 +52,7 @@
                  </form>
       </md-stepper>
       </md-layout>
-      <md-layout></md-layout>
+     
   </md-layout>
 </div>
 </template>
@@ -62,6 +61,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'RegisterUser',
+  props: ['user-info', 'update-user'],
   data() {
     return {
       single: null,
@@ -90,6 +90,15 @@ export default {
     };
   },
   watch: {
+    userInfo() {
+      this.username = this.userInfo.firstname;
+      this.lastname = this.userInfo.lastname;
+      this.mobileno = this.userInfo.mobileno;
+      this.email = this.userInfo.email;
+      this.role = this.userInfo.role;
+      this.state = this.userInfo.state;
+      this.address = this.userInfo.address;
+    },
     getMessage(data) {
       if (!this._.isEmpty(data)) {
         this.$refs.snackbar.open();
@@ -162,7 +171,11 @@ export default {
       formData.append('email', this.email);
       formData.append('address', this.address);
       formData.append('files', this.fileList);
-      this.$store.dispatch('ADD_USER', formData);
+      if (this.updateUser) {
+        this.$store.dispatch('MODIFY_USER', formData);
+      } else {
+        this.$store.dispatch('ADD_USER', formData);
+      }
       return true;
     },
     clearFields() {
@@ -175,11 +188,11 @@ export default {
       this.role = '';
     },
     onFileUpload(evt) {
-      console.log(evt);
       this.fileList = evt;
     },
     onStepCompleted() {
       this.registerUser();
+      this.$emit('completed');
     },
     onChangeStep() {
 

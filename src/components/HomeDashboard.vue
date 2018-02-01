@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <md-layout class="chart-area">
       <md-layout md-gutter>
         <md-card md-with-hover>
@@ -98,7 +98,6 @@ import barChart from '@/components/charts/barChart';
 import scatterChart from '@/components/charts/scatterChart';
 import pieChart from '@/components/charts/pieChart';
 import VueLifeCycle from '@/components/VueLifeCycle';
-import ThreeLineList from '@/components/ThreeLineList';
 import TableView from '@/components/TableView';
 import tabularData from '@/services/tabular_data';
 
@@ -114,7 +113,6 @@ export default {
     scatterChart,
     pieChart,
     VueLifeCycle,
-    ThreeLineList,
     TableView },
   data() {
     return {
@@ -211,10 +209,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .chart-area {
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-left: 1rem;
 }
 
+.content {
+  background-color: #F4F3EF;
+}
 .margin-1 {
   margin: 1rem !important;
 }

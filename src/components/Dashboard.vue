@@ -24,11 +24,11 @@
                 </div>
               </md-toolbar>
               <md-list>
-          <md-list-item>
+          <md-list-item v-show ="$can('admin|user')">
               <md-icon>home</md-icon>
               <span><router-link  v-on:click.native="upadateTitle('Home')" :to="'/'">Home</router-link></span>
           </md-list-item>
-          <md-list-item md-expand-multiple>
+          <md-list-item md-expand-multiple v-show ="$can('admin|user')">
             <md-icon>assignment</md-icon>
             <span><router-link  v-on:click.native="upadateTitle('User Management')" :to="'/usermngment'">User Management</router-link></span>
           <!--  <md-list-expand>
@@ -38,14 +38,14 @@
               </md-list>
             </md-list-expand>-->
           </md-list-item>
-          <md-list-item>
+          <md-list-item v-show ="$can('admin')">
             <md-icon>label</md-icon>
             <span><router-link  v-on:click.native="upadateTitle('About')" :to="'/about'">About</router-link></span>
           </md-list-item>
         </md-list>
     </md-sidenav>
     <div>
-      <router-view></router-view>
+      <router-view class="main-container"></router-view>
     </div>
   </div>
 </template>
@@ -61,6 +61,7 @@ export default {
   }),
   computed: mapGetters([
     'getTitle',
+    'getUserRole',
   ]),
   methods: {
     toggleLeftSidenav() {
@@ -89,7 +90,7 @@ export default {
      min-height:100vh;
     }
     .main-container {
-       min-height:90vh;
-       padding : 2rem;
+       padding: 10px;
+       min-height: calc(100% - 100px);
     }
 </style>

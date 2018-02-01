@@ -8,8 +8,9 @@ export default {
   login(context, credentials) {
     return new Promise((resolve, reject) => {
       Vue.axios.post(Api.BASE_URL + Api.AUTH_API, credentials).then((response) => {
-        context.$store.dispatch('LOGIN_USER', response.data.token);
+        context.$store.dispatch('LOGIN_USER', response.data);
         Vue.axios.defaults.headers.common['x-access-token'] = response.data.token;
+        console.log('succesful login');
         resolve();
       }).catch((error) => {
         context.$store.commit('LOGOUT_USER');

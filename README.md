@@ -6,9 +6,10 @@
   - Jwt authorization 
   - File upload 
   - Vue.js Lifecycle 
-## Todo
-  - Role based user		
+  - Role based access
   - Change header on route change
+  
+  ## Todo
   - Internationalisation support
   
 #### Screen Shots 
@@ -38,12 +39,17 @@ npm run e2e
 
 # run all tests
 npm test
+
+# clone backend node server for end to end working 
+ [Backend Server](https://github.com/rupeshpadhye/dashboard-server)
 ```
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 #### Third party libraries used
 - vue-material 
 - vue-chartjs
+- vue-acl
 - axios
+
 
 

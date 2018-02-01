@@ -19,6 +19,9 @@ const actions = {
       commit('UPDATE_ASYNC_INFO_FAILURE', { message: error.data.message });
     });
   },
+  SORT_USERS: ({ commit }, users) => {
+    commit('SORT_USERS', { list: users });
+  },
 };
 
 const mutations = {
@@ -49,6 +52,9 @@ const mutations = {
     state.ASYNC_INFO.PENDING = false;
     state.ASYNC_INFO.FAILURE = true;
     state.ASYNC_INFO.MESSAGE = message;
+  },
+  SORT_USERS: (state, { list }) => {
+    state.users = list;
   },
 };
 

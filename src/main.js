@@ -8,10 +8,10 @@ import lodash from 'lodash';
 import VueLodash from 'vue-lodash';
 import 'vue-material/dist/vue-material.css';
 import store from '@/store/store';
-// import vueTitleSwitcher from 'vue-title-switcher';
+import VueAcl from 'vue-acl';
 import App from './App';
 import router from './router';
-// import vueTitsConf from './config/vue-tits-conf';
+
 
 Vue.config.productionTip = false;
 Vue.use(VueMaterial);
@@ -25,6 +25,12 @@ Vue.use(vueTitleSwitcher, {
   config: vueTitsConf,
 });
 */
+
+Vue.use(VueAcl, {
+  init: 'admin',
+  router,
+  save: false,
+});
 
 /* eslint-disable no-new */
 new Vue({

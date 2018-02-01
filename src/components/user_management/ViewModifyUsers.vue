@@ -1,25 +1,76 @@
 <template>
     <div>
+         <md-dialog md-open-from="#custom" md-close-to="#custom" ref="deleteDialog">
+          <md-dialog-title>Deleting User</md-dialog-title>
+          <md-dialog-content>Do you want to delete selected users?</md-dialog-content>
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="closeDeleteDialog()">Cancel</md-button>
+            <md-button class="md-primary" @click="deleteUsers()">Delete</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
+          <md-dialog md-open-from="#custom2" md-close-to="#custom2" ref="modifyDialog">
+          <md-dialog-title>Modify User
+             <md-button class="md-icon-button" @click="closeModifyDialog()" style="float:right;">
+                   <md-icon >cancel</md-icon>
+            </md-button>
+
+          </md-dialog-title>
+          <md-dialog-content>
+            <register-user :user-info="modifyUser" @completed="onSuccessfulUpdate" update-user="true"></register-user>
+          </md-dialog-content>
+          </md-dialog>
+
+          <md-dialog md-open-from="#custom3" md-close-to="#custom3" ref="searchDialog">
+          <md-dialog-title>Search Users
+          </md-dialog-title>
+          <md-dialog-content>
+            <div class="field-group" md-gutter>
+                    <md-input-container>
+                      <label for="searchType"></label>
+                      <md-select name="searchType" id="searchType" v-model="searchBy">
+                        <md-option value="name">Name</md-option>
+                        <md-option value="lastname">Lastname</md-option>
+                        <md-option value="email">Mobile Number</md-option>
+                      </md-select>
+                   </md-input-container>
+                   <md-input-container>
+                    <md-input placeholder="Type here"></md-input>
+                  </md-input-container>
+            </div>     
+          </md-dialog-content>
+           <md-dialog-actions>
+            <md-button class="md-primary" @click="closeSearchDialog()">Cancel</md-button>
+            <md-button class="md-primary" @click="searchUser()">Search</md-button>
+          </md-dialog-actions>
+          </md-dialog>
+
+         
         <div v-if="isAsyncSuccess">
             <md-table-card>
                 <md-toolbar>
+                  <md-layout md-flex="10">
                     <h1 class="md-title">View Users</h1>
-                    <md-button class="md-icon-button">
+                  </md-layout>
+                  <md-layout md-flex="80">  
+                   <md-chip md-deletable>Luiza Ivanenko</md-chip>
+                  </md-layout>
+                  <md-layout md-flex="10">
+                    <!--<md-button class="md-icon-button" @click="openFilterBox()">
                           <md-icon>filter_list</md-icon>
-                    </md-button>
-                    <md-button class="md-icon-button">
+                    </md-button> -->
+                    <md-button class="md-icon-button" @click="openSearchBox()">
                       <md-icon>search</md-icon>
                     </md-button>
+                  </md-layout> 
+                   
                 </md-toolbar>
-                <md-table-alternate-header md-selected-label="selected">
-                  <md-button class="md-icon-button">
+                <md-table-alternate-header md-selected-label="selected" v-show="$can('superadmin|admin')">
+                  <md-button class="md-icon-button" @click="onDelete">
                     <md-icon>delete</md-icon>
                   </md-button>
-                  <md-button class="md-icon-button">
-                    <md-icon>more_vert</md-icon>
-                  </md-button>
               </md-table-alternate-header>
-            <md-table md-sort="firstname" @sort="reOrder">
+            <md-table md-sort="firstname" @sort="reOrder" @select="onSelect">
             <md-table-header>
                 <md-table-row>
                 <md-table-head md-sort-by="firstname">First Name</md-table-head>
@@ -38,8 +89,8 @@
                 <md-table-cell>{{user.email}}</md-table-cell>
                 <md-table-cell>{{user.role}}</md-table-cell>
                 <md-table-cell>{{user.state}}</md-table-cell>
-                <md-table-cell>
-                <md-button class="md-icon-button">
+                <md-table-cell  v-show="$can('superadmin|admin')">
+                <md-button class="md-icon-button" @click="onEditeRow(user)">
                         <md-icon>edit</md-icon>
                       </md-button>
                 </md-table-cell>
@@ -47,7 +98,7 @@
             </md-table-body>
             </md-table> 
               <md-table-pagination
-                md-size="10"
+                md-size="5"
                 :md-total="getUserCount"
                 md-page="1"
                 md-label="Rows"
@@ -67,27 +118,30 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import registerUser from '@/components/user_management/RegisterUser';
 
 export default {
   name: 'ViewModifyUsers',
+  components: { registerUser },
   data() {
     return {
       orderField: 'firstname',
       direction: 'asc',
+      selected: [],
+      modifyUser: {},
+      showSearchBox: false,
+      showFilterBox: false,
+      searchBy: '',
     };
   },
-  watch: {
-    getUsers(data) {
-      return this._.orderBy(data, this.orderField, this.direction);
-    },
-  },
-  computed: mapGetters([
+  computed: { ...mapGetters([
     'getUsers',
     'getUserCount',
     'isAsyncPending',
     'isAsyncSuccess',
     'isAsyncFailure',
   ]),
+  },
   created() {
     this.$store.dispatch('LOAD_USER_LIST');
   },
@@ -95,13 +149,49 @@ export default {
     reOrder(object) {
       this.orderField = object.name;
       this.direction = object.type;
+      this.$store.dispatch('SORT_USERS', this._.orderBy(this.getUsers, this.orderField, this.direction)); // temp hack
     },
     onPagination() {
       console.log('pagination');
+    },
+    onSelect(items) {
+      this.selected = items;
+    },
+    onDelete() {
+      this.$refs.deleteDialog.open();
+    },
+    onEditeRow(item) {
+      this.modifyUser = item;
+      this.$refs.modifyDialog.open();
+    },
+    deleteUsers() {
+      this.$store.dispatch('DELETE_USERS', this.selected);
+      this.$refs.deleteDialog.close();
+    },
+    closeDeleteDialog() {
+      this.$refs.deleteDialog.close();
+    },
+    closeModifyDialog() {
+      this.$refs.modifyDialog.close();
+    },
+    onSuccessfulUpdate() {
+      this.$refs.modifyDialog.close();
+    },
+    openSearchBox() {
+      this.$refs.searchDialog.open();
+    },
+    closeSearchDialog() {
+      this.$refs.searchDialog.close();
+    },
+    searchUser() {
+      this.$store.dispatch('SEARCH_USER', this.selected);
+      this.$refs.searchDialog.close();
     },
   },
 };
 </script>
 <<style scoped>
-
+  .field-group {
+    display: flex;
+  }
 </style>

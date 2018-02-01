@@ -63,6 +63,8 @@ export default {
           password: this.password,
         };
         auth.login(this, payload).then(() => {
+          debugger;
+          this.$access = 'admin';
           this.$router.push('/');
         }, (error) => {
           this.errorMessage = error.data.message;

@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import LoginForm from '@/components/LoginForm';
+import ErrorPage from '@/ErrorPage';
+
 
 const About = () => import('@/components/About');
 const UserManagement = () => import('@/components/user_management/UserManagement');
@@ -17,6 +19,10 @@ const router = new Router({
       path: '/login',
       name: 'LoginForm',
       component: LoginForm,
+      meta: {
+        permission: 'public',
+        fail: '/error',
+      },
     },
     {
       path: '/',
@@ -27,19 +33,40 @@ const router = new Router({
         {
           path: '/',
           component: HomeDashboard,
+          meta: {
+            permission: 'admin|user',
+            fail: '/error',
+          },
         },
         {
           path: 'usermngment',
           component: UserManagement,
+          meta: {
+            permission: 'admin|user',
+            fail: '/error',
+          },
         },
         {
           path: '/about',
           component: About,
+          meta: {
+            permission: 'public',
+            fail: '/error',
+          },
         },
       ],
     },
+    {
+      path: '/error',
+      name: 'error',
+      component: ErrorPage,
+      meta: {
+        permission: 'public',
+      },
+    },
   ],
 });
+
 /* TODO use store instead of localStorage */
 router.beforeEach((to, from, next) => {
   if (localStorage.getItem('token') && to.fullPath === '/login') {

@@ -21,8 +21,8 @@ export default {
   props: ['headers', 'table-data'],
   data() {
     return {
-      headers: [],
-      tableData: [],
+    /*  headers: [],
+      tableData: [], */
     };
   },
   methods: {},
