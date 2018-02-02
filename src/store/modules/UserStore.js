@@ -43,7 +43,7 @@
  const state = {
    isLogged: !localStorage.getItem('token'),
    userinfo: JSON.parse(localStorage.getItem('userinfo')),
-   title: localStorage.getItem('title'),
+   title: localStorage.getItem('title') ? localStorage.getItem('title') : 'Home',
    role: localStorage.getItem('role'),
  };
 
