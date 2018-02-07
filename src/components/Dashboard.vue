@@ -28,7 +28,7 @@
               <md-icon>home</md-icon>
               <span><router-link  v-on:click.native="upadateTitle('Home')" :to="'/'">Home</router-link></span>
           </md-list-item>
-          <md-list-item md-expand-multiple v-show ="$can('admin|user')">
+          <md-list-item md-expand-multiple v-show ="$can('admin')">
             <md-icon>assignment</md-icon>
             <span><router-link  v-on:click.native="upadateTitle('User Management')" :to="'/usermngment'">User Management</router-link></span>
           <!--  <md-list-expand>

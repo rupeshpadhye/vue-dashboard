@@ -24,7 +24,7 @@
                         <md-layout md-align="center">
                             <md-button type="submit"  class="md-raised md-primary">Login</md-button>
                         </md-layout>
-                        <router-link to="/password-reset">Lost your password?</router-link>
+                        <router-link to="/reset">Lost your password?</router-link>
                   </form>
             </md-card-content>
           </md-card>
@@ -60,8 +60,6 @@ export default {
           password: this.password,
         };
         auth.login(this, payload).then(() => {
-          debugger;
-          this.$access = 'admin';
           this.$router.push('/');
         }, (error) => {
           this.errorMessage = error.data.message;

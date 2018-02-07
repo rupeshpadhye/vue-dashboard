@@ -8,6 +8,7 @@ const About = () => import('@/components/About');
 const UserManagement = () => import('@/components/user_management/UserManagement');
 const Dashboard = () => import('@/components/Dashboard');
 const HomeDashboard = () => import('@/components/HomeDashboard');
+const ForgotPassWord = () => import('@/components/ForgotPassword');
 
 Vue.use(Router);
 
@@ -42,7 +43,7 @@ const router = new Router({
           path: 'usermngment',
           component: UserManagement,
           meta: {
-            permission: 'admin|user',
+            permission: 'admin',
             fail: '/error',
           },
         },
@@ -60,6 +61,14 @@ const router = new Router({
       path: '/error',
       name: 'error',
       component: ErrorPage,
+      meta: {
+        permission: 'public',
+      },
+    },
+    {
+      path: '/reset',
+      name: 'reset',
+      component: ForgotPassWord,
       meta: {
         permission: 'public',
       },

@@ -16,6 +16,7 @@
      state.isLogged = true;
      state.role = data.userinfo.role;
      state.userinfo = data.userinfo;
+     state.title = 'Home'; // default landing page
      localStorage.setItem('token', data.token);
      localStorage.setItem('role', data.userinfo.role);
      localStorage.setItem('userinfo', JSON.stringify(data.userinfo));
@@ -27,6 +28,9 @@
      localStorage.removeItem('title');
      localStorage.removeItem('userinfo');
      localStorage.removeItem('role');
+     Object.keys(state).forEach((key) => {
+       state[key] = null;
+     });
    },
    SET_TITLE(state, title) {
      state.title = title;
@@ -43,7 +47,7 @@
  const state = {
    isLogged: !localStorage.getItem('token'),
    userinfo: JSON.parse(localStorage.getItem('userinfo')),
-   title: localStorage.getItem('title') ? localStorage.getItem('title') : 'Home',
+   title: localStorage.getItem('title'),
    role: localStorage.getItem('role'),
  };
 
