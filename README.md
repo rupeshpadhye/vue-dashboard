@@ -45,6 +45,10 @@ npm test
 ```
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+#### Live url
+[Live Dashboard] (https://vue2-dashboard.herokuapp.com/)
+ - User credentials admin/admin or user/user
+
 #### Third party libraries used
 - vue-material 
 - vue-chartjs

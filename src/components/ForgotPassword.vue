@@ -38,18 +38,16 @@ export default {
     return {
       email: '',
       isEmailValid: false,
-      getMessage: 'rupesh',
+      getMessage: '',
       otp: '',
     };
   },
   methods: {
     onSubmit() {
-      debugger;
       this.$refs.snackbar.open();
       this.getMessage = 'Password Reset link sent successfully.';
     },
     validateEmail() {
-      debugger;
       /* eslint no-useless-escape: "off" */
       const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (!emailRegex.test(this.email)) {
