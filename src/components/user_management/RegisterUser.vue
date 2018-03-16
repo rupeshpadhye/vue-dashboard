@@ -3,7 +3,7 @@
     <md-snackbar ref="snackbar"  md-duration="3000" md-position="top right">{{getMessage}} </md-snackbar>
     <md-layout style="margin:2rem;">
       <md-layout md-align="center">
-              <md-stepper @change="onChangeStep" @completed="onStepCompleted">
+              <md-stepper @change="onChangeStep" @completed="onStepCompleted" :md-vertical="isVertical">
                  <form ref="form">
                       <md-step md-label="Personal Information" :md-editable="true" :md-error="!(isLastNameValid && isUserNameValid)" 
                             :md-continue="(isLastNameValid && isUserNameValid)" :md-message="mandatoryFieldsMsg">
@@ -62,6 +62,16 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'RegisterUser',
   props: ['user-info', 'update-user'],
+  mounted() {
+    this.mediaQueryList = window.matchMedia('(max-width: 600px)');
+    this.updateMatches();
+    this.mediaQueryList.addListener(this.updateMatches);
+  },
+  beforeDestroy() {
+    if (this.mediaQueryList) {
+      this.mediaQueryList.removeListener(this.updateMatches);
+    }
+  },
   data() {
     return {
       single: null,
@@ -87,6 +97,8 @@ export default {
       contactMandatoryFieldsMsg: 'Please Fill Contact detail fields.',
       invalidRoleMsg: 'Please Select Role.',
       docMessage: 'Choose Documents.',
+      matches: false,
+      isVertical: false,
     };
   },
   watch: {
@@ -143,6 +155,13 @@ export default {
         this.isRoleValid = true;
       }
     },
+    matches(newMatch) {
+      if (this.mediaQueryList && newMatch) {
+        this.isVertical = true;
+      } else {
+        this.isVertical = false;
+      }
+    },
   },
   computed: {
     ...mapGetters([
@@ -196,6 +215,9 @@ export default {
     },
     onChangeStep() {
 
+    },
+    updateMatches() {
+      this.matches = this.mediaQueryList.matches;
     },
   },
 };

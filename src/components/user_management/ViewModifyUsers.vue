@@ -49,21 +49,24 @@
         <div v-if="isAsyncSuccess">
             <md-table-card>
                 <md-toolbar>
-                  <md-layout md-flex="10">
-                    <h1 class="md-title">View Users</h1>
+                  <md-layout md-column>
+                  <md-layout>  
+                      <md-layout md-flex="95" md-flex-small="80" >
+                        <h1 class="md-title">View Users</h1>
+                      </md-layout>
+                      <md-layout md-flex="5" md-flex-small="20">
+                        <!--<md-button class="md-icon-button" @click="openFilterBox()">
+                              <md-icon>filter_list</md-icon>
+                        </md-button> -->
+                        <md-button class="md-icon-button" @click="openSearchBox()">
+                          <md-icon>search</md-icon>
+                        </md-button>
+                      </md-layout> 
                   </md-layout>
-                  <md-layout md-flex="80">  
+                  <md-layout md-gutter>  
                    <md-chip md-deletable>Luiza Ivanenko</md-chip>
                   </md-layout>
-                  <md-layout md-flex="10">
-                    <!--<md-button class="md-icon-button" @click="openFilterBox()">
-                          <md-icon>filter_list</md-icon>
-                    </md-button> -->
-                    <md-button class="md-icon-button" @click="openSearchBox()">
-                      <md-icon>search</md-icon>
-                    </md-button>
-                  </md-layout> 
-                   
+                  </md-layout>
                 </md-toolbar>
                 <md-table-alternate-header md-selected-label="selected" v-show="$can('superadmin|admin')">
                   <md-button class="md-icon-button" @click="onDelete">
@@ -149,7 +152,7 @@ export default {
     reOrder(object) {
       this.orderField = object.name;
       this.direction = object.type;
-      this.$store.dispatch('SORT_USERS', this._.orderBy(this.getUsers, this.orderField, this.direction)); // temp hack
+      this.$store.dispatch('SORT_USERS', { order: this.orderField, direction: this.direction }); // temp hack
     },
     onPagination() {
       console.log('pagination');
@@ -165,7 +168,7 @@ export default {
       this.$refs.modifyDialog.open();
     },
     deleteUsers() {
-      this.$store.dispatch('DELETE_USERS', this.selected);
+      this.$store.dispatch('DELETE_USERS', this._.cloneDeep(this.selected));
       this.$refs.deleteDialog.close();
     },
     closeDeleteDialog() {
@@ -184,7 +187,7 @@ export default {
       this.$refs.searchDialog.close();
     },
     searchUser() {
-      this.$store.dispatch('SEARCH_USER', this.selected);
+      this.$store.dispatch('SEARCH_USER', this._.cloneDeep(this.selected));
       this.$refs.searchDialog.close();
     },
   },

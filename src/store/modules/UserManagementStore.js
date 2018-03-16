@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import userMngmntService from '@/services/user_management';
 
 const actions = {
@@ -21,6 +22,15 @@ const actions = {
   },
   SORT_USERS: ({ commit }, users) => {
     commit('SORT_USERS', { list: users });
+  },
+  DELETE_USERS: ({ commit }, users) => {
+    commit('UPDATE_ASYNC_INFO_PENDING');
+    userMngmntService.deleteUser(users).then((response) => {
+      commit('UPDATE_ASYNC_INFO_SUCCESS', { message: response.data.message });
+      commit('DELETE_USERS', { list: users });
+    }).catch((error) => {
+      commit('UPDATE_ASYNC_INFO_FAILURE', { message: error.data.message });
+    });
   },
 };
 
@@ -55,6 +65,9 @@ const mutations = {
   },
   SORT_USERS: (state, { list }) => {
     state.users = list;
+  },
+  DELETE_USERS: (state, { list }) => {
+    state.users = _.differenceWith(state.users, list, _.isEqual);
   },
 };
 

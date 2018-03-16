@@ -9,6 +9,7 @@ const UserManagement = () => import('@/components/user_management/UserManagement
 const Dashboard = () => import('@/components/Dashboard');
 const HomeDashboard = () => import('@/components/HomeDashboard');
 const ForgotPassWord = () => import('@/components/ForgotPassword');
+const FlowChartApp = () => import('@/components/FlowChartApp');
 
 Vue.use(Router);
 
@@ -71,6 +72,15 @@ const router = new Router({
       component: ForgotPassWord,
       meta: {
         permission: 'public',
+      },
+    },
+    {
+      path: '/flowchart',
+      name: 'FlowChartBoard',
+      component: FlowChartApp,
+      meta: {
+        permission: 'public',
+        fail: '/error',
       },
     },
   ],

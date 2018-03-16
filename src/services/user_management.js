@@ -8,4 +8,7 @@ export default {
   getUsers() {
     return AXIOS_PROVIDER.getAxiosInstance().get(Api.BASE_URL + Api.GET_USERS);
   },
+  deleteUser(users) {
+    return AXIOS_PROVIDER.getAxiosInstance().post(Api.BASE_URL + Api.DELETE_USERS, users);
+  },
 };

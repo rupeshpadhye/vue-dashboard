@@ -73,7 +73,7 @@ export default {
   name: 'About',
 };
 </script>
-<<style scoped>
+<style scoped>
 img {
   border-radius: 50%;
 }
